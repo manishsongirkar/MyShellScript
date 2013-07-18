@@ -1,0 +1,80 @@
+# Modified by - Manish Songirkar #
+# Conky settings  	 #
+background no
+update_interval 10
+cpu_avg_samples 2
+net_avg_samples 2
+override_utf8_locale yes
+double_buffer yes
+no_buffers yes
+text_buffer_size 2048
+temperature_unit fahrenheit
+# imlib_cache_size 0
+# Window specifications #
+own_window_class Conky
+own_window yes
+own_window_type normal
+own_window_transparent no
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+own_window_argb_visual yes
+own_window_argb_value 140
+border_inner_margin 5
+border_outer_margin 0
+minimum_size 1366 768
+maximum_width 500
+alignment tr
+gap_x 20
+gap_y 20
+
+# Graphics settings #
+draw_shades no
+draw_outline no
+draw_borders no
+draw_graph_borders no
+
+# Text settings #
+use_xft yes
+xftfont URW Gothic L:size=10
+xftalpha 0.8
+
+uppercase no
+temperature_unit celsius
+default_color FFFFFF
+color1 46F80F	#Leman Color
+color2 BBF80F	#Yello Leman Color
+color3 FF0000	#Red (Alert Color)
+
+# Lua Load #
+lua_load ~/.conky/112726-clock.lua
+lua_draw_hook_pre draw_clock
+
+TEXT
+
+${font Comfortaa:size=15}${color}${time %A, %B %d, %Y}
+${color2}Time: ${voffset 2}${color}${time %I:%M}
+
+${font URW Gothic L:size=15}${color1}Battery:
+${font DejaVu Sans:size=10}${color2}Charging ${goto 120}Battery Time ${goto 270}Battery Status
+${color}${acpiacadapter} ${goto 120}${battery_time} ${goto 270}${if_match ${battery_percent} > 50}${color}${battery_bar 7,70 BAT0}  ${battery_percent}% ${endif}${if_match ${battery_percent} <= 40}${color2}${battery_bar 7,70 BAT0} ${battery_percent}% ${endif}${if_match ${battery_percent} <= 30}${color1}${battery_bar 7,70 BAT0} ${battery_percent}% ${endif}${if_match ${battery_percent} <= 20}${color3}${battery_bar 7,70 BAT0} ${battery_percent}% ${endif}
+${color1}${hr 1}
+${font URW Gothic L:size=15}${color1}System:
+${font DejaVu Sans:size=10}${color2}CPU ${goto 100}RAM ${goto 200}Swap ${goto 300}Disk ${goto 400}CPU Temp  ${color}
+${cpu cpu0}% ${goto 100}${memperc}% ${goto 200}${swapperc}% ${goto 300}${fs_used_perc /}% ${goto 400}${execi 10 sensors | grep ^temp1 | tail -n 1 | awk '{print $2}'}
+
+${color2}OS: ${color}${pre_exec cat /etc/issue.net}  $machine
+
+${color2}File systems: ${color}
+${if_existing /}Lunux: ${goto 100}${fs_bar 7,105 /} ${fs_free /} / ${fs_size /}${endif}
+${if_existing /media/manish/Windows}Windows: ${goto 100}${fs_bar 7, 105 /media/manish/Windows} ${fs_free /media/manish/Windows} / ${fs_size /media/manish/Windows}${endif}
+${if_existing /media/manish/Office}Office: ${goto 100}${fs_bar 7, 105 /media/manish/Office} ${fs_free /media/manish/Office} / ${fs_size /media/manish/Office}${endif}
+${if_existing /media/manish/Softwares}Software: ${goto 100}${fs_bar 7, 105 /media/manish/Softwares} ${fs_free /media/manish/Softwares} / ${fs_size /media/manish/Softwares}${endif}
+${color1}${hr 1}
+${font URW Gothic L:size=15}${color1}Net:${font DejaVu Sans:size=10}${color2}
+Down Speed: ${color}${goto 150}${if_up wlan0}${downspeed wlan0}/s ${endif} ${goto 240}${color2}Total Download: ${goto 350}${color}${totaldown wlan0}${color2}
+Up Speed: ${goto 150}${color}${if_up wlan0}${upspeed wlan0}/s ${endif} ${goto 240}${color2}Total Upload: ${goto 350}${color}${totalup wlan0}
+${color1}${hr 1}
+${color2}Uptime: ${color}${goto 150}${uptime_short} ${color2}${goto 240}User: ${color}${goto 350}${exec whoami}@${nodename}
+${color2}Processes: ${color}${goto 150}${processes} ${color2}${goto 240}Internal IP: ${color}${goto 350}${addr wlan0}
+${color2}Running: ${color}${goto 150}${running_processes} ${color2}${goto 240}External IP: ${color}${goto 350}${execi 3600 curl ifconfig.me/ip}
+${color2}Connection Quality: ${color}${goto 150}${wireless_link_qual_perc wlan0}%
+${color1}${hr 1}
