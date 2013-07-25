@@ -1,6 +1,6 @@
-#! /bin/sh
+#!/bin/bash
 # Save this file in bin/hosts
-# This code Developed by Manish
+# This code Developed by @manishsongirkar
 
 DEFAULT_IP=127.0.0.1
 add_remove=$1
