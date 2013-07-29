@@ -129,3 +129,11 @@ function maketar() { tar cvzf "${1%%/}.tar.gz"  "${1%%/}/"; }
 
 # Create a ZIP archive of a file or folder.
 function makezip() { zip -r "${1%%/}.zip" "$1" ; }
+
+# Update system Packages
+function update_package () 
+{
+	sudo apt-get update;
+	sudo apt-get upgrade; 
+	sudo apt-get autoremove;
+}
