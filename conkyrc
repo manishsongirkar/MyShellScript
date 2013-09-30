@@ -1,5 +1,5 @@
-# Modified by - Manish Songirkar #
-# Conky settings  	 #
+# Modified by - Manish Songirkar 	#
+# Conky settings					#
 background no
 update_interval 10
 cpu_avg_samples 2
@@ -7,9 +7,8 @@ net_avg_samples 2
 override_utf8_locale yes
 double_buffer yes
 no_buffers yes
-text_buffer_size 2048
 temperature_unit fahrenheit
-# imlib_cache_size 0
+
 # Window specifications #
 own_window_class Conky
 own_window yes
@@ -20,6 +19,7 @@ own_window_argb_visual yes
 own_window_argb_value 140
 border_inner_margin 5
 border_outer_margin 0
+text_buffer_size 2048
 minimum_size 1366 768
 maximum_width 500
 alignment tr
@@ -40,9 +40,9 @@ xftalpha 0.8
 uppercase no
 temperature_unit celsius
 default_color FFFFFF
-color1 46F80F	#Leman Color
-color2 BBF80F	#Yello Leman Color
-color3 FF0000	#Red (Alert Color)
+color1 46F80F		# Leman Color
+color2 BBF80F		# Yello Leman Color
+color3 FF0000		# Red (Alert Color)
 
 # Lua Load #
 lua_load ~/.conky/112726-clock.lua
@@ -55,13 +55,13 @@ ${color2}Time: ${voffset 2}${color}${time %I:%M}
 
 ${font URW Gothic L:size=15}${color1}Battery:
 ${font DejaVu Sans:size=10}${color2}Charging ${goto 120}Battery Time ${goto 270}Battery Status
-${color}${acpiacadapter} ${goto 120}${battery_time} ${goto 270}${if_match ${battery_percent} > 50}${color}${battery_bar 7,70 BAT0}  ${battery_percent}% ${endif}${if_match ${battery_percent} <= 40}${color2}${battery_bar 7,70 BAT0} ${battery_percent}% ${endif}${if_match ${battery_percent} <= 30}${color1}${battery_bar 7,70 BAT0} ${battery_percent}% ${endif}${if_match ${battery_percent} <= 20}${color3}${battery_bar 7,70 BAT0} ${battery_percent}% ${endif}
+${color}${acpiacadapter} ${goto 120}${execi 1 acpi -f | awk '{print $5}'} ${goto 270}${if_match ${battery_percent} > 50}${color}${battery_bar 7,70 BAT0}  ${battery_percent}% ${endif}${if_match ${battery_percent} <= 40}${color2}${battery_bar 7,70 BAT0} ${battery_percent}% ${endif}${if_match ${battery_percent} <= 30}${color1}${battery_bar 7,70 BAT0} ${battery_percent}% ${endif}${if_match ${battery_percent} <= 20}${color3}${battery_bar 7,70 BAT0} ${battery_percent}% ${endif}
 ${color1}${hr 1}
 ${font URW Gothic L:size=15}${color1}System:
 ${font DejaVu Sans:size=10}${color2}CPU ${goto 100}RAM ${goto 200}Swap ${goto 300}Disk ${goto 400}CPU Temp  ${color}
-${cpu cpu0}% ${goto 100}${memperc}% ${goto 200}${swapperc}% ${goto 300}${fs_used_perc /}% ${goto 400}${execi 10 sensors | grep ^temp1 | tail -n 1 | awk '{print $2}'}
+${cpu cpu0}% ${goto 100}${memperc}% ${goto 200}${swapperc}% ${goto 300}${fs_used_perc /}% ${goto 400}${execi 1 acpi -t | cut -d',' -f2 | awk '{print $1}'}°C
 
-${color2}OS: ${color}${pre_exec cat /etc/issue.net}  $machine
+${color2}OS: ${color}${pre_exec lsb_release -dc | awk '{print $2" "$3}' | paste -sd " "}
 
 ${color2}File systems: ${color}
 ${if_existing /}Lunux: ${goto 100}${fs_bar 7,105 /} ${fs_free /} / ${fs_size /}${endif}
@@ -75,6 +75,6 @@ Up Speed: ${goto 150}${color}${if_up wlan0}${upspeed wlan0}/s ${endif} ${goto 24
 ${color1}${hr 1}
 ${color2}Uptime: ${color}${goto 150}${uptime_short} ${color2}${goto 240}User: ${color}${goto 350}${exec whoami}@${nodename}
 ${color2}Processes: ${color}${goto 150}${processes} ${color2}${goto 240}Internal IP: ${color}${goto 350}${addr wlan0}
-${color2}Running: ${color}${goto 150}${running_processes} ${color2}${goto 240}External IP: ${color}${goto 350}${execi 3600 curl ifconfig.me/ip}
+${color2}Running: ${color}${goto 150}${running_processes} ${color2}${goto 240}External IP: ${color}${goto 350}${execi 360 curl ipecho.net/plain}
 ${color2}Connection Quality: ${color}${goto 150}${wireless_link_qual_perc wlan0}%
 ${color1}${hr 1}
