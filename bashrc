@@ -47,7 +47,7 @@ esac
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-  # We have color support; assume it's compliant with Ecma-48
+	# We have color support; assume it's compliant with Ecma-48
 	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
 	# a case would tend to support setf rather than setaf.)
 	color_prompt=yes
@@ -123,7 +123,6 @@ function wiki
 	dig +short txt $(echo $* | sed 's/ /_/g').wp.dg.cx|sed -E "s/\" \"|^\"|\"$|\\\\//g" | fmt;
 }
 
-
 # Creates an archive (*.tar.gz) from given directory.
 function maketar() { tar cvzf "${1%%/}.tar.gz"  "${1%%/}/"; }
 
@@ -133,7 +132,31 @@ function makezip() { zip -r "${1%%/}.zip" "$1" ; }
 # Update system Packages
 function update_package () 
 {
-	sudo apt-get update;
-	sudo apt-get upgrade; 
-	sudo apt-get autoremove;
+	sudo apt-get update && sudo apt-get upgrade && sudo apt-get autoremove;
+	rsync -avzhq /var/cache/apt/archives/*.deb www-data@192.168.0.101:/var/www/mitesh.rtcamp.info/htdocs/Ubuntu/13.04/Packages/
+	clear;
+	sudo apt-get clean all;
+}
+
+# Take Backup of my Home Directory
+function my_backup ()
+{
+    rsync -avzhm --exclude "Desktop" --exclude "Documents" --exclude "SyncDrive" --exclude "Downloads" --exclude ".cache" --exclude "Music" --exclude "NetBeansProjects" --exclude "Pictures" --exclude "Public" --exclude "Templates" --exclude ".xsession-errors" --exclude ".xsession-errors.old" --exclude "Ubuntu One" --exclude "Videos" --exclude "examples.desktop" /home/manish/ /media/manish/MyPassport_Manish/Manish_Linux_Backup/
+}
+
+# Show Mac Address and IP Address
+function mac_id ()
+{
+	echo -e "\nMac Address:"
+	ifconfig | egrep [0-9A-Za-z]{2}\(:[0-9A-Za-z]{2}\){5} | awk '{print $1 ":\t" $5}'
+	
+	echo -e "\nIP Address:"
+	ifconfig | grep "inet addr:" | cut -d: -f2 | awk '{print $1}'
+	echo
+}
+
+# Download mp3 from DownloadMing site
+function download_mp3
+{
+	wget $(curl "$1" | grep downloadming1.com | grep -v .zip | cut -d'"' -f2)
 }
