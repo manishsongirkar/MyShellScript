@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# Usage #
+# Run the following command one-by-one
+#
+#     wget -c https://raw.github.com/manishsongirkar/MyShellScript/master/gruntInstall.sh
+#     chmod u+x gruntInstall.sh
+#     sudo bash gruntInstall.sh
+#
+# That's it :)
+
 # Add NodeJs repository #
 sudo apt-get install -y python-software-properties
 sudo add-apt-repository -y ppa:chris-lea/node.js
