@@ -1,15 +1,12 @@
 #!/bin/bash
 
 # Add NodeJs repository #
-sudo apt-get install python-software-properties
-sudo apt-add-repository ppa:chris-lea/node.js
+sudo apt-get install -y python-software-properties
+sudo add-apt-repository -y ppa:chris-lea/node.js
 sudo apt-get update
 
-# Install NodeJs #
-sudo apt-get install nodejs
-
-# Install npm #
-sudo apt-get install npm
+# Install NodeJs And NPM #
+sudo apt-get install -y nodejs npm
 
 # Install Grunt CLI #
 sudo npm install -g grunt-cli
