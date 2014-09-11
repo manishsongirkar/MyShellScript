@@ -102,7 +102,7 @@ function maketar() { tar cvzf "${1%%/}.tar.gz"  "${1%%/}/"; }
 function makezip() { zip -r "${1%%/}.zip" "$1" ; }
 
 # Update system Packages
-function update_package () 
+function update_package ()
 {
 	sudo apt-get -y update && sudo apt-get -y upgrade && sudo apt-get autoremove && sudo apt-get clean all;
 	clear;
@@ -118,10 +118,11 @@ function my_backup ()
 function mac_id ()
 {
 	echo -e "\nMac Address:"
-	sudo ifconfig | egrep [0-9A-Za-z]{2}\(:[0-9A-Za-z]{2}\){5} | awk '{print $1 ":\t" $5}'
-	
+	sudo ifconfig | grep HWaddr | awk '{print $1 ":\t" $5}'
+
 	echo -e "\nIP Address:"
-	sudo ifconfig | grep "inet addr:" | cut -d: -f2 | awk '{print $1}'
+	echo -e "eth0" $(sudo ifconfig | grep -i -A2 -B2 eth0 | grep "inet addr:" | cut -d: -f2 | awk '{print $1}')
+	echo -e "wlan0" $(sudo ifconfig | grep -i -A2 -B2 wlan0 | grep "inet addr:" | cut -d: -f2 | awk '{print $1}')
 	echo
 }
 
